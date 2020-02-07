@@ -5,6 +5,9 @@ namespace Setapp\Test\Tests\Payments;
 
 use PHPUnit\Framework\TestCase;
 use Setapp\Test\Payments\BasePaymentGateway;
+use Setapp\Test\Payments\Adapters\DetailedProviderAdapter;
+use Setapp\Test\Payments\Adapters\LambdaProviderAdapter;
+use Setapp\Test\Payments\Adapters\SimpleProviderAdapter;
 use Setapp\Test\Payments\Providers\DetailedProvider;
 use Setapp\Test\Payments\Providers\LambdaProvider;
 use Setapp\Test\Payments\Providers\SimpleProvider;
@@ -17,7 +20,11 @@ class BasePaymentGatewayTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->testingUnit = new BasePaymentGateway();
+        $this->testingUnit = new BasePaymentGateway(
+            new SimpleProviderAdapter(new SimpleProvider()),
+            new DetailedProviderAdapter(new DetailedProvider()),
+            new LambdaProviderAdapter(new LambdaProvider())
+        );
     }
 
     public function getChargeTestsSets(): array
