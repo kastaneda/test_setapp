@@ -15,6 +15,14 @@ class BasePaymentGateway implements InterfacePaymentGateway
     public function charge(array $invoices): array
     {
         // TODO: IMPLEMENT
-        return [];
+
+        $result = [];
+
+        foreach($invoices as $invoice) {
+            $id = $invoice->getId();
+            $result[$id] = strpos($id, '-ok') !== false;
+        }
+
+        return $result;
     }
 }
